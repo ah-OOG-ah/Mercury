@@ -150,6 +150,7 @@ publishing {
     }
 
     repositories {
+        /*
         val sonatypeUsername: String? by project
         val sonatypePassword: String? by project
         if (sonatypeUsername != null && sonatypePassword != null) {
@@ -161,6 +162,16 @@ publishing {
                     password = sonatypePassword
                 }
             }
+        }
+         */
+        val url = if (isSnapshot) {
+            "https://papermc.io/repo/repository/maven-snapshots/"
+        } else {
+            "https://papermc.io/repo/repository/maven-releases/"
+        }
+        maven(url) {
+            credentials(PasswordCredentials::class)
+            name = "paper"
         }
     }
 }
