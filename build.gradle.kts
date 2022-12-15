@@ -23,7 +23,7 @@ repositories {
     mavenCentral()
 }
 
-val jdtCoordinates = "org.eclipse.jdt:org.eclipse.jdt.core:3.29.0"
+val jdtCoordinates = "org.eclipse.jdt:org.eclipse.jdt.core:3.32.0"
 dependencies {
     api(jdtCoordinates)
 
