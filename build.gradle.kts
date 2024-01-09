@@ -23,7 +23,7 @@ repositories {
     mavenCentral()
 }
 
-val jdtCoordinates = "org.eclipse.jdt:org.eclipse.jdt.core:3.32.0"
+val jdtCoordinates = "org.eclipse.jdt:org.eclipse.jdt.core:3.36.0"
 dependencies {
     api(jdtCoordinates)
 
@@ -33,7 +33,7 @@ dependencies {
 
     jdt("$jdtCoordinates:sources")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testRuntimeOnly("org.cadixdev:lorenz-io-jam:0.5.8")
 }
