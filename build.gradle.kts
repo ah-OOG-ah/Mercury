@@ -10,16 +10,9 @@ val artifactId = name.toLowerCase()
 base.archivesName.set(artifactId)
 
 java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+    sourceCompatibility = JavaVersion.VERSION_1_8
     withSourcesJar()
     withJavadocJar()
-}
-
-tasks.withType(JavaCompile::class).configureEach {
-    // Match JDT
-    options.release.set(17)
 }
 
 val jdt: Configuration by configurations.creating {
@@ -30,8 +23,7 @@ repositories {
     mavenCentral()
 }
 
-val jdtVer = "3.36.0"
-val jdtCoordinates = "org.eclipse.jdt:org.eclipse.jdt.core:$jdtVer"
+val jdtCoordinates = "org.eclipse.jdt:org.eclipse.jdt.core:3.36.0"
 dependencies {
     api(jdtCoordinates)
 
@@ -40,7 +32,6 @@ dependencies {
     api("org.cadixdev:lorenz:0.5.8")
 
     jdt("$jdtCoordinates:sources")
-    jdt("org.eclipse.jdt:ecj:$jdtVer:sources")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
@@ -60,12 +51,11 @@ patches {
 val jdtSrcDir = file("jdt")
 
 val extractJdt = task<Copy>("extractJdt") {
-    from(jdt.elements.map { it.map { e -> zipTree(e) } })
+    from(jdt.elements.map { zipTree(it.single()) })
     destinationDir = patches.rootDir
 
     include("org/eclipse/jdt/core/dom/rewrite/ImportRewrite.java")
     include("org/eclipse/jdt/internal/core/dom/rewrite/imports/*.java")
-    include("org/eclipse/jdt/internal/compiler/problem/*.java")
 }
 tasks.applyPatches {
     inputs.files(extractJdt)
@@ -76,8 +66,7 @@ tasks.resetSources {
 
 val renames = listOf(
         "org.eclipse.jdt.core.dom.rewrite" to "$group.$artifactId.jdt.rewrite.imports",
-        "org.eclipse.jdt.internal.core.dom.rewrite.imports" to "$group.$artifactId.jdt.internal.rewrite.imports",
-        "org.eclipse.jdt.internal.compiler.problem" to "$group.$artifactId.jdt.internal.compiler.problem"
+        "org.eclipse.jdt.internal.core.dom.rewrite.imports" to "$group.$artifactId.jdt.internal.rewrite.imports"
 )
 
 fun createRenameTask(prefix: String, inputDir: File, outputDir: File, renames: List<Pair<String, String>>): Task
