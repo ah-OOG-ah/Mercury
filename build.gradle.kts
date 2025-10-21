@@ -1,6 +1,5 @@
 plugins {
     `java-library`
-    signing
     `maven-publish`
     id("uk.jamierocks.propatcher") version "2.0.1"
     id("org.cadixdev.licenser") version "0.6.1"
@@ -174,14 +173,6 @@ publishing {
             name = "paper"
         }
     }
-}
-
-signing {
-    sign(publishing.publications["mavenJava"])
-}
-
-tasks.withType<Sign> {
-    onlyIf { !isSnapshot }
 }
 
 operator fun Property<String>.invoke(v: String) = set(v)
