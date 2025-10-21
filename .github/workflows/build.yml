@@ -28,6 +28,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
       - name: Build
         run: ./gradlew build --stacktrace
+#
 #      - name: Publish Release
 #        if: "${{ github.event_name == 'release' }}"
 #        run: ./gradlew publish --stacktrace
