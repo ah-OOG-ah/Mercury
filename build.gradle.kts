@@ -1,3 +1,5 @@
+import java.util.Locale
+
 plugins {
     `java-library`
     `maven-publish`
@@ -5,7 +7,7 @@ plugins {
     id("org.cadixdev.licenser") version "0.6.1"
 }
 
-val artifactId = name.toLowerCase()
+val artifactId = name.lowercase(Locale.getDefault())
 base.archivesName.set(artifactId)
 
 java {
@@ -100,7 +102,7 @@ license {
     exclude("$group.$artifactId.jdt.".replace('.', '/'))
 }
 
-val isSnapshot = version.toString().endsWith("-SNAPSHOT")
+//val isSnapshot = version.toString().endsWith("-SNAPSHOT")
 
 publishing {
     publications {
@@ -162,7 +164,6 @@ publishing {
                 }
             }
         }
-         */
         val url = if (isSnapshot) {
             "https://papermc.io/repo/repository/maven-snapshots/"
         } else {
@@ -172,6 +173,7 @@ publishing {
             credentials(PasswordCredentials::class)
             name = "paper"
         }
+         */
     }
 }
 
